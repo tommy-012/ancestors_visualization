@@ -1,0 +1,28 @@
+# frozen_string_literal: true
+
+require 'choice'
+require "ancestors_visualization/cli"
+
+Choice.options do
+  header ''
+  header 'Specific options:'
+
+  option :gem_name do
+    short '-g'
+    long '--gem=GEM'
+    desc '描画対象の Gem を指定する'
+  end
+
+  option :output_path do
+    short '-o'
+    long '--output=OUTPUT'
+    desc '出力先パスを指定する'
+  end
+
+  option :help do
+    long '--help'
+    desc 'Show this message'
+  end
+end
+
+AncestorsVisualization::CLI.new(gem_name: Choice[:gem_name], output_path: Choice[:output_path]).execute
