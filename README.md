@@ -1,5 +1,5 @@
 # AncestorsVisualization
-
+## 概要
 Gem のクラス継承・モジュール利用を可視化する Gem です
 
 作ったきっかけとしては、Gem の実装を読む時に全体感を把握したいなと思うことがあったので
@@ -91,7 +91,7 @@ end
 
 ![test](https://user-images.githubusercontent.com/46615665/166624534-6cd57cc6-e7cd-455b-9d9c-3af002f5435b.png)
 
-⚠️ 注意点
+### ⚠️ 注意点
 
 - 描画内容は正確でないことがあります
     - まず前提として、描画対象となるクラス・モジュールは、該当 Gem 名から判定した名前空間配下のみにしてます
@@ -102,7 +102,7 @@ end
         - なので、それが守られていないと、描画に失敗します（例）
 - あくまでコードリーディングする際の参考として使ってください
 
-## Installation
+## インストール方法
 
 以下を Gemfile に追記して `$ bundle install`
 
@@ -116,7 +116,7 @@ Budler を使わない場合は
 $ gem install ancestors_visualization
 ```
 
-## Usage
+## 使い方
 
 実行フォーマットは以下
 
@@ -141,10 +141,12 @@ $ bundle exec ancestors_visualization --gem twitter
 ### 実行例 2
 例えば、[Rspec](https://github.com/rspec/rspec-core) に対して実行する場合
 
-該当 Gem の lib 配下のクラス・モジュールを描画対象にしているので、依存先の Gem が本体みたいなケースは、、（↓ に描画結果を表示しているのですが）
+該当 Gem の lib 配下のクラス・モジュールを描画対象にしているので、依存先の Gem が本体みたいなケースは、意図しない描画結果になります
+
+↓ で描画結果を表示しているのですが、何も表示されていないのはそういうことです
 
 ![rspec_ancestors_20220504174723](https://user-images.githubusercontent.com/46615665/166649622-61bc7626-0daa-4c22-9408-94a6375b3e0a.png)
 
-## License
+## ライセンス
 
 [MIT License](https://opensource.org/licenses/MIT)
