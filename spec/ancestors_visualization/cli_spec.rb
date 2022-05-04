@@ -11,7 +11,8 @@ RSpec.describe AncestorsVisualization::CLI, type: :model, stop_the_time: true do
     let(:target_object_fetcher) { instance_double('TargetObjectFetcher') }
     let(:target_objects) { [Object] }
     let(:diagram_creater) { instance_double('DiagramCreater') }
-    let(:default_output_path) { "#{Dir.pwd}/output/#{gem_name}_ancestors_#{Time.current.strftime("%Y%m%d%H%M%S")}.png" }
+    let(:default_output_path) { "#{Dir.pwd}/#{gem_name}_ancestors_#{Time.current.strftime("%Y%m%d%H%M%S")}.png" }
+    let(:not_require_file_message) { '以下のファイルは読み込めなかったため、描画結果に反映されていません。' }
 
     describe '正常系' do
       before do
@@ -26,7 +27,7 @@ RSpec.describe AncestorsVisualization::CLI, type: :model, stop_the_time: true do
 
         specify do
           expect(diagram_creater).to receive(:create)
-          expect(cli).not_to receive(:puts)
+          expect(cli).not_to receive(:puts).with(not_require_file_message)
 
           execute
         end
@@ -38,8 +39,10 @@ RSpec.describe AncestorsVisualization::CLI, type: :model, stop_the_time: true do
 
         specify do
           expect(diagram_creater).to receive(:create)
-          expect(cli).to receive(:puts).with('以下のファイルは require できなかったため、図に反映されていません。')
-          expect(cli).to receive(:puts).with('```').twice
+          expect(cli).to receive(:puts).with('描画結果を以下に出力しました。')
+          expect(cli).to receive(:puts).with(default_output_path)
+          expect(cli).to receive(:puts).with(not_require_file_message)
+          expect(cli).to receive(:puts).with('```').exactly(4).times
           expect(cli).to receive(:puts).with("- #{file}")
 
           execute
