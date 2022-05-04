@@ -45,6 +45,8 @@ RSpec.describe AncestorsVisualization::DiagramCreater, require_sample_gem: true 
     subject(:draw_diagram) { creater.send(:draw_diagram, GemName::C1) }
     let(:c1) { double('c1_node') }
     let(:m1_1) { double('m1_1_node') }
+    let(:m1_1_1) { double('m1_1_1_node') }
+    let(:m1_1_2) { double('m1_1_2_node') }
     let(:m1_2) { double('m1_2_node') }
     let(:c2) { double('c2_node') }
     let(:m2_1) { double('m2_1_node') }
@@ -58,12 +60,18 @@ RSpec.describe AncestorsVisualization::DiagramCreater, require_sample_gem: true 
       allow(graph_viz).to receive(:find_or_create_node).with(GemName::C2.to_s).and_return(c2)
       allow(graph_viz).to receive(:find_or_create_node).with(GemName::Modules::M2_1.to_s).and_return(m2_1)
       allow(graph_viz).to receive(:find_or_create_node).with(GemName::Modules::M2_2.to_s).and_return(m2_2)
+
+      allow(graph_viz).to receive(:find_or_create_node).with(GemName::Modules::M1_1_1.to_s).and_return(m1_1_1)
+      allow(graph_viz).to receive(:find_or_create_node).with(GemName::Modules::M1_1_2.to_s).and_return(m1_1_2)
     end
 
     specify do
       expect(graph_viz).to receive(:link).with(source: c1, destination: m1_1)
       expect(graph_viz).to receive(:link).with(source: c1, destination: m1_2)
       expect(graph_viz).to receive(:link).with(source: c1, destination: c2)
+
+      expect(graph_viz).to receive(:link).with(source: m1_1, destination: m1_1_1)
+      expect(graph_viz).to receive(:link).with(source: m1_1, destination: m1_1_2)
 
       expect(graph_viz).not_to receive(:link).with(source: c1, destination: m2_1)
       expect(graph_viz).not_to receive(:link).with(source: c1, destination: m2_2)
